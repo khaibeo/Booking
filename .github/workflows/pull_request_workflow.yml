@@ -1,0 +1,50 @@
+name: Before merging
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  app-tests:
+    name: Run Application Tests
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: laravel
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extension-csv: mbstring, bcmath
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Install NPM Dependencies and build assets
+        run: npm install && npm run build
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Run Laravel Pint
+        uses: aglipanci/laravel-pint-action@2.0.0
+        with:
+          preset: laravel
+          verboseMode: true
+          testMode: true
+          configPath: "pint.json"
+          pintVersion: 1.14.0
+          onlyDirty: true
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: vendor/bin/phpunit
