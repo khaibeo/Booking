@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('staff_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->date('date')->nullable(false);
-            $table->time('start_time')->nullable(false);
-            $table->time('end_time')->nullable(false);
+            $table->unsignedBigInteger('user_id');
+            $table->date('date');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }

@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('store_id')->constrained();
-            $table->string('name')->nullable(false);
-            $table->string('phone')->nullable(false);
-            $table->date('booking_date')->nullable(false);
-            $table->time('booking_time')->nullable(false);
-            $table->time('end_time')->nullable(false);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('store_id');
+            $table->string('name');
+            $table->string('phone');
+            $table->date('booking_date');
+            $table->time('booking_time');
+            $table->time('end_time');
             $table->text('note')->nullable();
-            $table->integer('total_amount')->nullable(false);
-            $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->nullable(false);
+            $table->integer('total_amount');
+            $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

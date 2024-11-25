@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('service_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable(false);
-            $table->text('description')->nullable(false);
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
-            $table->softDeletes(); // Thêm cột deleted_at
+            $table->softDeletes();
         });
     }
 

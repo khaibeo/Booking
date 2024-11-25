@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('booking_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->nullable(false)->constrained();
-            $table->foreignId('service_id')->nullable(false)->constrained();
-            $table->float('price')->nullable(false);
+            $table->unsignedBigInteger('booking_id');
+            $table->unsignedBigInteger('service_id');
+            $table->float('price');
             $table->timestamps();
         });
     }

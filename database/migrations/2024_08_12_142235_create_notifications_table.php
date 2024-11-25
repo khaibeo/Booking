@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable(false)->constrained();
-            $table->foreignId('booking_id')->nullable(false)->constrained();
-            $table->string('message')->nullable(false);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('booking_id');
+            $table->string('message');
             $table->boolean('is_read')->default(false);
             $table->timestamp('created_at')->useCurrent();
         });

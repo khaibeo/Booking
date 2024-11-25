@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('store_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->nullable(false)->constrained();
-            $table->date('date')->nullable(false);
-            $table->time('opening_time')->nullable(false);
-            $table->time('closing_time')->nullable(false);
+            $table->unsignedBigInteger('store_id');
+            $table->date('date');
+            $table->date('date_end')->nullable();
+            $table->time('opening_time');
+            $table->time('closing_time');
             $table->timestamps();
         });
     }

@@ -13,18 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained();
-            $table->string('name')->nullable(false);
-            $table->string('email')->unique()->nullable(false);
-            $table->string('image')->nullable();
-            $table->string('phone')->unique()->nullable(false);
+            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('image_id')->nullable();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('phone')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable(false);
-            $table->enum('role', ['manager', 'staff', 'cashier'])->nullable(false);
-            $table->tinyInteger('expired')->nullable(false)->default(0);
+            $table->string('password');
+            $table->enum('role', ['manager', 'staff', 'cashier'])->default('staff');
+            $table->tinyInteger('expired')->default(0);
             $table->string('biography');
+            $table->boolean('is_locked')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

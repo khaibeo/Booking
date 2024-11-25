@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('service_categories')->onDelete('cascade'); //Sửa lại trường này thêm cascade để thực hiện xóa khi xóa danh mục
-            $table->string('name')->nullable(false);
-            $table->text('description')->nullable(false);
-            $table->integer('duration')->nullable(false);
-            $table->float('price')->nullable(false);
+            $table->unsignedBigInteger('category_id');
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->integer('duration');
+            $table->float('price');
             $table->timestamps();
-            $table->softDeletes(); // Thêm cột deleted_at
+            $table->softDeletes();
         });
     }
 

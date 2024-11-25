@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->text('logo')->nullable(false);
-            $table->text('slogan')->nullable(false);
-            $table->string('contact_phone')->nullable(false);
-            $table->string('contact_email')->nullable(false);
-            $table->string('facebook');
-            $table->string('instagram');
-            $table->string('lindin');
-            $table->string('youtube');
+            $table->string('name');
+            $table->text('logo')->nullable();
+            $table->text('slogan')->nullable();
+            $table->string('contact_phone')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('messenger')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('zalo')->nullable();
+            $table->string('tiktok')->nullable();
+            $table->string('youtube')->nullable();
             $table->timestamps();
         });
     }

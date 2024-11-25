@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('invoice_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('invoice_id')->constrained()->comment('ID hóa đơn');
-            $table->foreignId('service_id')->constrained()->comment('ID dịch vụ');
-            $table->integer('quantity')->default(1)->comment('Số lượng');
-            $table->integer('price')->comment('Giá dịch vụ');
+            $table->unsignedBigInteger('invoice_id');
+            $table->unsignedBigInteger('service_id');
+            $table->integer('price');
             $table->timestamps();
         });
     }
