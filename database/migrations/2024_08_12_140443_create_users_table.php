@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('store_id')->nullable();
             $table->unsignedBigInteger('image_id')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['manager', 'staff', 'cashier'])->default('staff');
-            $table->tinyInteger('expired')->default(0);
+            $table->enum('role', ['admin', 'manager', 'staff', 'cashier'])->default('staff');
+            $table->tinyInteger('expired')->default(1);
             $table->string('biography');
             $table->boolean('is_locked')->default(false);
             $table->rememberToken();
