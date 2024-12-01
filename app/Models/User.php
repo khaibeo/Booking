@@ -27,6 +27,7 @@ class User extends Authenticatable
         'image_id',
         'password',
         'biography',
+        'is_locked',
         'email_verified_at',
     ];
 

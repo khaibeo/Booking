@@ -228,6 +228,7 @@
               </a>
           </li>
             {{-- STORE --}}
+            @if(auth()->user()->role == 'admin')
               <li class="nav-main-item{{ request()->is('admin/stores/*')  || request()->is('admin/stores') ? ' open' : '' }}">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('admin/stores/*') ? 'true' : 'false' }}" href="#">
                   <i class="nav-main-link-icon fa fa-store"></i>
@@ -246,6 +247,17 @@
                   </li>
                 </ul>
               </li>
+              @endif
+
+              @if(auth()->user()->role == 'manager')
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{{ route('admin.stores.edit', auth()->user()->store_id) }}">
+                  <i class="nav-main-link-icon fa fa-store"></i>
+                  <span class="nav-main-link-name">Cửa hàng</span>
+                </a>
+              </li>
+              @endif
+
               {{-- USERS --}}
               <li class="nav-main-item{{ request()->is('admin/users/*') || request()->is('admin/users') ? ' open' : '' }}">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('admin/users/*') ? 'true' : 'false' }}" href="#">
@@ -267,6 +279,7 @@
               </li>
 
               {{-- Service_Category --}}
+              @if(auth()->user()->role == 'admin')
               <li class="nav-main-item{{ request()->is('admin/services_category/*') || request()->is('admin/services_category') ? ' open' : '' }}">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('admin/services_category/*') ? 'true' : 'false' }}" href="#">
                     <i class="nav-main-link-icon fa fa-list-ul"></i>
@@ -285,7 +298,18 @@
                     </li>
                 </ul>
               </li>
+              @endif
+
+              @if(auth()->user()->role == 'manager')
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{{ route('admin.services_category.index') }}">
+                  <i class="nav-main-link-icon fa fa-list-ul"></i>
+                  <span class="nav-main-link-name">Danh mục</span>
+                </a>
+              </li>
+              @endif
               {{-- Service --}}
+              @if(auth()->user()->role == 'admin')
               <li class="nav-main-item{{ request()->is('admin/services/*') || request()->is('admin/services') ? ' open' : '' }}">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('admin/services/*') ? 'true' : 'false' }}" href="#">
                     <i class="nav-main-link-icon fa fa-clipboard-list"></i>
@@ -304,6 +328,16 @@
                     </li>
                 </ul>
               </li>
+              @endif
+
+              @if(auth()->user()->role == 'manager')
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="{{ route('admin.services.index') }}">
+                  <i class="nav-main-link-icon fa fa-clipboard-list"></i>
+                  <span class="nav-main-link-name">Dịch vụ</span>
+                </a>
+              </li>
+              @endif
 
               {{-- BOOKING --}}
               <li class="nav-main-item{{ request()->is('admin/bookings/*') || request()->is('admin/bookings') ? ' open' : '' }}">
@@ -313,12 +347,14 @@
                 </a>
               </li>
 
+              @can('viewSetting', App\Models\Setting::class)
               <li class="nav-main-item">
                 <a class="nav-main-link" href="{{route('admin.settings.show')}}">
                     <i class="nav-main-link-icon fa fa-cog"></i>
                     <span class="nav-main-link-name">Cài đặt</span>
                 </a>
               </li>
+              @endcan
 
             @endif
             {{--ROLE STAFF --}}

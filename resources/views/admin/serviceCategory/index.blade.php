@@ -35,35 +35,17 @@
     <!-- END Hero -->
     <div class="content">
         <div class="block block-rounded">
-            <div class="block-header block-header-default">
+            {{-- <div class="block-header block-header-default">
                 <h3 class="block-title">Danh sách danh mục</h3>
                 <div class="block-options">
                     <div class="block-options-item">
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="block-content d-flex  justify-content-between align-content-center align-items-center">
-                {{-- <form method="GET" action="{{ route('admin.services_category.index') }}">
-                    <div class="row mb-4">
-                        <!-- Tìm kiếm theo tên khách hàng -->
-                        <div class="col-md-3">
-                            <input type="text" name="customer_name" class="form-control"
-                                placeholder="Tìm kiếm tên khách hàng" value="{{ request()->get('customer_name') }}">
-                        </div>
-
-                        <!-- Lọc theo cửa hàng -->
-
-
-                        <!-- Lọc theo trạng thái thanh toán -->
-
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">Lọc</button>
-                        </div>
-                    </div>
-                </form> --}}
+            @if (auth()->user()->role == 'admin')
                 <a href="{{ route('admin.services_category.create') }}" class="btn btn-primary">Thêm mới</a>
-            </div>
+            @endif
 
             <div class="block-content">
                 <table class="table table-hover" id="bookingsTable">
@@ -72,7 +54,9 @@
                             <th class="text-center" style="width: 50px;">#</th>
                             <th>Tên danh mục</th>
                             <th class="d-none d-sm-table-cell">Ngày tạo</th>
-                            <th class="text-center" style="width: 100px;">Tùy chọn</th>
+                            @if (auth()->user()->role == 'admin')
+                                <th class="text-center" style="width: 100px;">Tùy chọn</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -82,27 +66,30 @@
                                 <td class="d-none d-sm-table-cell">{{ $serviceCategory->name }}</td>
                                 <td class="d-none d-sm-table-cell">
                                     {{ \Carbon\Carbon::parse($serviceCategory->created_at)->format('d-m-Y') }}</td>
-                                <td class="d-none d-sm-table-cell table-cell-store">
-                                    <div class="btn-group">
-                                        <!-- Cập nhật trạng thái -->
-                                        <a href="{{ route('admin.services_category.edit', $serviceCategory->id) }}"
-                                            class="btn btn-sm btn-alt-warning mx-2 d-flex align-items-center" style="height: 30px; line-height: 30px;"
-                                            title="Chỉnh sửa">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-                                        <form action="{{ route('admin.services_category.destroy', $serviceCategory->id) }}"
-                                            method="post">
-                                            @method("delete")
-                                            @csrf
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá?')"  class="btn btn-sm btn-alt-danger mx-2 d-flex align-items-center"
-                                                style="height: 30px; line-height: 30px;"
-                                                title="Xóa">
-                                                <i class="far fa-trash-can"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-
+                                @if (auth()->user()->role == 'admin')
+                                    <td class="d-none d-sm-table-cell table-cell-store">
+                                        <div class="btn-group">
+                                            <!-- Cập nhật trạng thái -->
+                                            <a href="{{ route('admin.services_category.edit', $serviceCategory->id) }}"
+                                                class="btn btn-sm btn-alt-warning mx-2 d-flex align-items-center"
+                                                style="height: 30px; line-height: 30px;" title="Chỉnh sửa">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
+                                            <form
+                                                action="{{ route('admin.services_category.destroy', $serviceCategory->id) }}"
+                                                method="post">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit"
+                                                    onclick="return confirm('Bạn có chắc muốn xoá?')"
+                                                    class="btn btn-sm btn-alt-danger mx-2 d-flex align-items-center"
+                                                    style="height: 30px; line-height: 30px;" title="Xóa">
+                                                    <i class="far fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

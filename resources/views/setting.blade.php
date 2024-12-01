@@ -118,15 +118,6 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label" for="linkedin">Link Linkedin</label>
-                                <input type="text" class="form-control @error('linkedin') is-invalid @enderror"
-                                    id="linkedin" name="linkedin" value="{{ old('linkedin', $settings->linkedin) }}">
-                                @error('linkedin')
-                                    <div class="text-danger mt-2" id="linkedin-error">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <button type="submit" class="btn btn-primary mb-3">Lưu</button>
                         </div>
                     </div>

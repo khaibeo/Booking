@@ -86,28 +86,35 @@
                         </div> --}}
 
                             <!-- Chọn cửa hàng -->
-                            <div class="mb-4">
-                                <label class="form-label" for="store_id">Cửa hàng</label>
-                                <select class="form-control" id="store_id" name="store_id">
-                                    <option value="" disabled selected>Chọn cửa hàng</option>
-                                    @foreach ($stores as $store)
-                                        <option value="{{ $store->id }}"
-                                            {{ $store->id == $user->store_id ? 'selected' : '' }}>
-                                            {{ $store->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('store_id')
-                                    <div class="text-danger mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            @if (auth()->user()->role == 'admin')
+                                <div class="mb-4">
+                                    <label class="form-label" for="store_id">Cửa hàng</label>
+                                    <select class="form-control" id="store_id" name="store_id">
+                                        <option value="" disabled selected>Chọn cửa hàng</option>
+                                        @foreach ($stores as $store)
+                                            <option value="{{ $store->id }}"
+                                                {{ $store->id == $user->store_id ? 'selected' : '' }}>
+                                                {{ $store->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('store_id')
+                                        <div class="text-danger mt-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            @endif
 
                             <!-- Vai trò -->
                             <div class="mb-4">
                                 <label class="form-label" for="role">Vai trò</label>
                                 <select class="form-control" id="role" name="role">
-                                    <option value="manager" {{ $user->role == 'manager' ? 'selected' : '' }}>Quản lý
-                                    </option>
+                                    @if (auth()->user()->role == 'admin')
+                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin
+                                        </option>
+                                        <option value="manager" {{ $user->role == 'manager' ? 'selected' : '' }}>Quản lý
+                                        </option>
+                                    @endif
+
                                     <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Nhân viên
                                     </option>
                                     <option value="cashier" {{ $user->role == 'cashier' ? 'selected' : '' }}>Thu ngân
@@ -129,13 +136,13 @@
 
                             <!-- Trạng thái hết hạn -->
                             <div class="mb-4">
-                                <label class="form-label" for="expired">Trạng thái</label>
-                                <select class="form-control" id="expired" name="expired">
-                                    <option value="0" {{ $user->expired == '0' ? 'selected' : '' }}>Hoạt động
+                                <label class="form-label" for="is_locked">Trạng thái</label>
+                                <select class="form-control" id="is_locked" name="is_locked">
+                                    <option value="0" {{ $user->is_locked == '0' ? 'selected' : '' }}>Hoạt động
                                     </option>
-                                    <option value="1" {{ $user->expired == '1' ? 'selected' : '' }}>Hết hạn</option>
+                                    <option value="1" {{ $user->is_locked == '1' ? 'selected' : '' }}>Khóa</option>
                                 </select>
-                                @error('expired')
+                                @error('is_locked')
                                     <div class="text-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>

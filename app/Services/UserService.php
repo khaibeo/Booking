@@ -39,6 +39,10 @@ class UserService
             $data['image_id'] = $data['image_id'];
         }
 
+        if(!isset($data['store_id'])){
+            $data['store_id'] = auth()->user()->store_id;
+        }
+
         return User::create($data);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SettingRequest;
+use App\Models\Setting;
 use App\Services\SettingService;
 
 class SettingController extends Controller
@@ -17,6 +18,7 @@ class SettingController extends Controller
 
     public function show()
     {
+        $this->authorize('viewSetting', Setting::class);
         $settings = $this->settingService->getSetting();
 
         return view('setting', compact('settings'));
@@ -24,6 +26,8 @@ class SettingController extends Controller
 
     public function update(SettingRequest $request)
     {
+        $this->authorize('updateSetting', Setting::class);
+
         $settings = $this->settingService->getSetting();
 
         $this->settingService->update($settings, $request->validated());

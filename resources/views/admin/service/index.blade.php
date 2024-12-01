@@ -35,17 +35,19 @@
     <!-- END Hero -->
     <div class="content">
         <div class="block block-rounded">
-            <div class="block-header block-header-default">
+            {{-- <div class="block-header block-header-default">
                 <h3 class="block-title">Danh sách dịch vụ</h3>
                 <div class="block-options">
                     <div class="block-options-item">
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
+            @if (auth()->user()->role == 'admin')
             <div class="block-content">
                 <a href="{{ route('admin.services.create') }}" class="btn btn-primary">Thêm mới</a>
             </div>
+            @endif
 
             <div class="block-content">
                 <table class="table table-hover" id="servicesTable">
@@ -56,7 +58,9 @@
                             <th class="d-none d-sm-table-cell">Danh mục</th>
                             <th class="d-none d-sm-table-cell">Giá</th>
                             <th class="d-none d-sm-table-cell">Thời gian</th>
+                            @if (auth()->user()->role == 'admin')
                             <th class="text-center" style="width: 100px;">Tùy chọn</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +73,7 @@
                                 </td>
                                 <td class="d-none d-sm-table-cell">{{ $service->duration }} phút </td>
                                 
+                                @if (auth()->user()->role == 'admin')
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <!-- Cập nhật trạng thái -->
@@ -87,6 +92,7 @@
                                         </form>
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

@@ -39,9 +39,10 @@ class StoreUserRequest extends FormRequest
                 Rule::unique('users')->ignore($userId),
             ],
             'image_id' => 'nullable',
-            'store_id' => 'required|exists:stores,id',
-            'role' => 'required|in:manager,staff,cashier',
-            'biography' => 'required|string',
+            'store_id' => 'sometime|exists:stores,id',
+            'role' => 'required|in:admin,manager,staff,cashier',
+            'is_locked' => 'required|in:0,1',
+            'biography' => 'nullable',
         ];
     }
 
@@ -64,8 +65,6 @@ class StoreUserRequest extends FormRequest
             'image.image' => 'Tệp tải lên phải là một hình ảnh.',
             'store_id.required' => 'Cửa hàng không được để trống.',
             'role.required' => 'Vai trò không được để trống.',
-            'biography.required' => 'Tiểu sử không được để trống.',
-            'biography.string' => 'Tiểu sử phải là một chuỗi văn bản.',
         ];
     }
 }
