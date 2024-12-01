@@ -7,7 +7,7 @@
     class="d-md-flex justify-content-md-between align-items-md-center py-3 pt-md-3 pb-md-0 text-center text-md-start">
     <div>
       <h1 class="h3 mb-1">
-        Thông tin tổng hợp của shop <a href="{{route('admin.stores.edit',$store->id)}}"></a>
+        Thông tin tổng hợp
       </h1>
     </div>
   </div>

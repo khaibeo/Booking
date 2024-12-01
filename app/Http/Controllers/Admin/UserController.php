@@ -25,7 +25,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = $this->userService->getListUser($request, auth()->user()->store_id);
+        $storeId = auth()->user()->store_id ?? '';
+        $users = $this->userService->getListUser($request, $storeId);
 
         return view(self::PATH_VIEW.__FUNCTION__, compact('users'));
     }
@@ -64,8 +65,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->store_id != auth()->user()->store_id) {
-            abort(403);
+        if(auth()->user()->role == 'manager'){
+            if ($user->store_id != auth()->user()->store_id) {
+                abort(403);
+            }
         }
 
         $stores = $this->userService->getStores();

@@ -51,7 +51,8 @@
                     </div>
                     
                     <!-- Lọc theo cửa hàng -->
-                    {{-- <div class="col-md-3">
+                    @if (auth()->user()->role == 'admin')
+                    <div class="col-md-3">
                         <select name="store_id" class="form-control">
                             <option value="">Tất cả cửa hàng</option>
                             @foreach($stores as $store)
@@ -61,7 +62,8 @@
                             @endforeach
                         </select>
                     </div>
-                     --}}
+                    @endif
+                    
                     <!-- Lọc theo trạng thái thanh toán -->
                     <div class="col-md-3">
                         <select name="status" class="form-control">
@@ -87,7 +89,9 @@
                         <th class="text-center" style="width: 50px;">STT</th>
                         <th>Khách hàng</th>
                         <th class="d-none d-sm-table-cell">Thời gian</th>
-                        {{-- <th class="d-none d-sm-table-cell">Cửa hàng</th> --}}
+                        @if (auth()->user()->role == 'admin')
+                            <th class="d-none d-sm-table-cell">Cửa hàng</th>
+                        @endif
                         <th class="d-none d-sm-table-cell">Trạng thái</th>
                         <th class="text-center" style="width: 100px;">Tùy chọn</th>
                     </tr>
@@ -98,9 +102,11 @@
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td class="d-none d-sm-table-cell">{{ $booking->name }}</td>
                             <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($booking->booking_time)->format('H:i') }}, {{ \Carbon\Carbon::parse($booking->booking_date)->format('d-m-Y') }}</td>
-                            {{-- <td class="d-none d-sm-table-cell table-cell-store">
+                            @if (auth()->user()->role == 'admin')
+                            <td class="d-none d-sm-table-cell table-cell-store">
                                 {{ $booking->store ? $booking->store->name : 'N/A' }}
-                            </td> --}}
+                            </td>
+                            @endif
                             <td class="d-none d-sm-table-cell">
                                 @if($booking->status == 'pending')
                                     <span class="badge bg-warning">Chờ xử lý</span>

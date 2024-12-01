@@ -45,6 +45,7 @@ class AuthController extends Controller
         $userRole = Auth::user()->role;
 
         return match ($userRole) {
+            'admin' => redirect()->route('admin.dashboard'),
             'manager' => redirect()->route('admin.dashboard'),
             'staff' => redirect()->route('admin.staff.dashboard'),
             'cashier' => redirect()->route('cashier.dashboard'),

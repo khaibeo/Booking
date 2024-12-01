@@ -55,7 +55,7 @@ Route::prefix('admin')
         // })->name('dashboard');
         Route::match(['get', 'post'], '/', [AdminHomeController::class, 'index'])->name('dashboard');
 
-        Route::middleware('role:manager')->group(function () {
+        Route::middleware('checkRoleAdmin')->group(function () {
             // STORES
             Route::resource('stores', StoreController::class);
             Route::get('/{store}/staffs', [StoreController::class, 'showStoreStaffs'])->name('store.staffs');

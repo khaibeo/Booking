@@ -11,10 +11,14 @@ class BookingService
 
     public function getAllBookings($filters = [])
     {
-        $query = Booking::with('user', 'store')->whereStoreId(auth()->user()->store_id);
+        $query = Booking::with('user', 'store');
+
+        if (auth()->user()->role == 'manager') {
+            $query = $query->whereStoreId(auth()->user()->store_id);
+        }
 
         if (! empty($filters['customer_name'])) {
-            $query->where('name', 'like', '%'.$filters['customer_name'].'%');
+            $query->where('name', 'like', '%' . $filters['customer_name'] . '%');
         }
 
         if (! empty($filters['store_id'])) {
@@ -25,7 +29,7 @@ class BookingService
             $query->where('status', $filters['status']);
         }
 
-        return $query->orderBy('booking_date', 'desc')->paginate(10)->appends(['customer_name' => request('customer_name'), 'status' => request('status')]);
+        return $query->orderBy('booking_date', 'desc')->paginate(10)->appends(['customer_name' => request('customer_name'), 'store_id' => request('store_id'), 'status' => request('status')]);
     }
 
     public function getBookingByStore($filters, $store)
@@ -33,7 +37,7 @@ class BookingService
         $query = Booking::query()->where('store_id', $store);
 
         if (! empty($filters['customer_name'])) {
-            $query->where('name', 'like', '%'.$filters['customer_name'].'%');
+            $query->where('name', 'like', '%' . $filters['customer_name'] . '%');
         }
 
         if (! empty($filters['status'])) {

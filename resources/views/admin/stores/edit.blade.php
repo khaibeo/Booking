@@ -33,7 +33,7 @@
                         <h2 class="content-heading pt-0 border-0">Cập nhật cửa hàng</h2>
                         <div>
                             <a class="btn btn-primary" href="{{ route('admin.opening-store', $store->id) }}">Giờ mở cửa</a>
-                            {{-- <a class="btn btn-primary" href="{{ route('admin.store.staffs', $store) }}">Nhân viên</a> --}}
+                            <a class="btn btn-primary" href="{{ route('admin.store.staffs', $store) }}">Nhân viên</a>
                         </div>
                     </div>
 

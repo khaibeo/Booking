@@ -70,7 +70,7 @@ class StoreService
         return $store->update($data);
     }
 
-    public function loadIdStore($id)
+    public function loadIdStore($id = '')
     {
         return Store::query()->find($id);
     }

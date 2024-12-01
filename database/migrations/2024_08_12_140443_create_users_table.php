@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'manager', 'staff', 'cashier'])->default('staff');
             $table->tinyInteger('expired')->default(1);
-            $table->string('biography');
+            $table->string('biography')->nullable();
             $table->boolean('is_locked')->default(false);
             $table->rememberToken();
             $table->timestamps();

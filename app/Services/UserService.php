@@ -88,13 +88,14 @@ class UserService
         return $user->update($data);
     }
 
-    public function getListUser(Request $request, $storeId)
+    public function getListUser(Request $request, $storeId = '')
     {
-        $query = User::query()
-            ->with(['store', 'image'])
-            ->where('store_id', $storeId)
-            ->select('id', 'store_id', 'name', 'image_id', 'role', 'phone', 'created_at')
-            ->orderBy('id', 'desc');
+        $query = User::query()->with(['store', 'image'])
+            ->select('id', 'store_id', 'name', 'image_id', 'role', 'phone', 'created_at');
+
+        if($storeId){
+            $query = $query->where('store_id', $storeId);
+        }
 
         // Lọc theo tên
         if ($request->filled('name')) {
@@ -106,8 +107,7 @@ class UserService
             $query->where('role', $request->input('role'));
         }
 
-        // Phân trang
-        $users = $query->paginate(10)->appends($request->except('page'));
+        $users = $query->orderBy('id', 'desc')->paginate(10)->appends($request->except('page'));
 
         return $users;
     }
