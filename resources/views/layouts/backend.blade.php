@@ -228,7 +228,7 @@
               </a>
           </li>
             {{-- STORE --}}
-            @if(auth()->user()->role == 'admin')
+            @can('is-admin')
               <li class="nav-main-item{{ request()->is('admin/stores/*')  || request()->is('admin/stores') ? ' open' : '' }}">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('admin/stores/*') ? 'true' : 'false' }}" href="#">
                   <i class="nav-main-link-icon fa fa-store"></i>
@@ -247,16 +247,16 @@
                   </li>
                 </ul>
               </li>
-              @endif
+              @endcan
 
-              @if(auth()->user()->role == 'manager')
+              @can('is-manager')
               <li class="nav-main-item">
                 <a class="nav-main-link" href="{{ route('admin.stores.edit', auth()->user()->store_id) }}">
                   <i class="nav-main-link-icon fa fa-store"></i>
                   <span class="nav-main-link-name">Cửa hàng</span>
                 </a>
               </li>
-              @endif
+              @endcan
 
               {{-- USERS --}}
               <li class="nav-main-item{{ request()->is('admin/users/*') || request()->is('admin/users') ? ' open' : '' }}">
@@ -279,7 +279,7 @@
               </li>
 
               {{-- Service_Category --}}
-              @if(auth()->user()->role == 'admin')
+              @can('is-admin')
               <li class="nav-main-item{{ request()->is('admin/services_category/*') || request()->is('admin/services_category') ? ' open' : '' }}">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('admin/services_category/*') ? 'true' : 'false' }}" href="#">
                     <i class="nav-main-link-icon fa fa-list-ul"></i>
@@ -298,18 +298,18 @@
                     </li>
                 </ul>
               </li>
-              @endif
+              @endcan
 
-              @if(auth()->user()->role == 'manager')
+              @can('is-manager')
               <li class="nav-main-item">
                 <a class="nav-main-link" href="{{ route('admin.services_category.index') }}">
                   <i class="nav-main-link-icon fa fa-list-ul"></i>
                   <span class="nav-main-link-name">Danh mục</span>
                 </a>
               </li>
-              @endif
+              @endcan
               {{-- Service --}}
-              @if(auth()->user()->role == 'admin')
+              @can('admin')
               <li class="nav-main-item{{ request()->is('admin/services/*') || request()->is('admin/services') ? ' open' : '' }}">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('admin/services/*') ? 'true' : 'false' }}" href="#">
                     <i class="nav-main-link-icon fa fa-clipboard-list"></i>
@@ -328,16 +328,16 @@
                     </li>
                 </ul>
               </li>
-              @endif
+              @endcan
 
-              @if(auth()->user()->role == 'manager')
+              @can('is-manager')
               <li class="nav-main-item">
                 <a class="nav-main-link" href="{{ route('admin.services.index') }}">
                   <i class="nav-main-link-icon fa fa-clipboard-list"></i>
                   <span class="nav-main-link-name">Dịch vụ</span>
                 </a>
               </li>
-              @endif
+              @endcan
 
               {{-- BOOKING --}}
               <li class="nav-main-item{{ request()->is('admin/bookings/*') || request()->is('admin/bookings') ? ' open' : '' }}">
@@ -358,7 +358,7 @@
 
             @endif
             {{--ROLE STAFF --}}
-            @if(auth()->user()->role === 'staff')
+            @can('is-staff')
             <li class="nav-main-item">
               <a class="nav-main-link" href="{{ route('admin.staff.dashboard') }}">
                   <i class="nav-main-link-icon fa fa-location-arrow"></i>
@@ -379,17 +379,7 @@
                     <span class="nav-main-link-name">Lịch làm việc</span>
                 </a>
             </li>
-            @endif
-
-
-            {{-- <li class="nav-main-heading">More</li>
-            <li class="nav-main-item">
-              <a class="nav-main-link" href="/">
-                <i class="nav-main-link-icon fa fa-globe"></i>
-                <span class="nav-main-link-name">Landing</span>
-              </a>
-            </li> --}}
-
+            @endcan
           </ul>
         </div>
         <!-- END Side Navigation -->
