@@ -2,12 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
-
 use App\Models\Admin\Store;
 use App\Models\ServiceCategory;
 use App\Models\Setting;
-use App\Policies\Admin\StorePolicy;
+use App\Policies\StorePolicy;
 use App\Policies\ServiceCategoryPolicy;
 use App\Policies\SettingPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;

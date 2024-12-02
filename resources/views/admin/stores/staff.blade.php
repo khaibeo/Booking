@@ -32,7 +32,7 @@
     <!-- END Hero -->
     <div class="content">
         <div class="mb-3 ">
-            <a href="{{ route('admin.stores.index') }}" class="btn btn-secondary">
+            <a href="{{ route('admin.stores.edit', $staffs[0]->store_id) }}" class="btn btn-secondary">
                 <i class="fa fa-arrow-left"></i> Quay lại
             </a>
         </div>
