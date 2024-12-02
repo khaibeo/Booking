@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Models\Admin\Store;
 use App\Models\ServiceCategory;
 use App\Models\Setting;
+use App\Models\User;
 use App\Policies\StorePolicy;
 use App\Policies\ServiceCategoryPolicy;
 use App\Policies\SettingPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -22,7 +24,8 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Store::class => StorePolicy::class,
         ServiceCategory::class => ServiceCategoryPolicy::class,
-        Setting::class => SettingPolicy::class
+        Setting::class => SettingPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

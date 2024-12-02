@@ -65,11 +65,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if(auth()->user()->role == 'manager'){
-            if ($user->store_id != auth()->user()->store_id) {
-                abort(403);
-            }
-        }
+        $this->authorize('view', $user);
 
         $stores = $this->userService->getStores();
         $user = $this->userService->getUserById($user->id);
@@ -84,6 +80,7 @@ class UserController extends Controller
      */
     public function update(StoreUserRequest $request, User $user)
     {
+        $this->authorize('update', $user);
         try {
             $this->userService->update($user->id, $request->validated());
 
@@ -98,6 +95,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
         try {
             if ($user->id == auth()->user()->id) {
                 return back()->with('error', 'Không thể xóa tài khoản của chính mình');
