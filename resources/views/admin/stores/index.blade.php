@@ -40,7 +40,6 @@
                         <th class="text-center" style="width: 50px;">#</th>
                         <th>Tên cửa hàng</th>
                         <th class="d-none d-sm-table-cell">Địa chỉ</th>
-                        <th class="d-none d-sm-table-cell">Số điện thoại</th>
                         <th class="d-none d-sm-table-cell">Ngày tạo</th>
                         <th class="text-center" style="width: 100px;">Thao tác</th>
                     </tr>
@@ -51,8 +50,7 @@
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td class="fw-semibold"><a href="{{route('admin.stores.edit',$item->id)}}">{{ $item->name }}</a></td>
                             <td class="d-none d-sm-table-cell">{{ \Str::limit($item->address, 30, '...') }}</td>
-                            <td class="d-none d-sm-table-cell">{{ $item->phone }}</td>
-                            <td class="d-none d-sm-table-cell">{{ $item->created_at }}</td>
+                            <td class="d-none d-sm-table-cell">{{ $item->created_at->format('d/m/Y') }}</td>
                             <td class="text-center">
                                 <div class="btn-group">
                                     {{-- EDIT --}}

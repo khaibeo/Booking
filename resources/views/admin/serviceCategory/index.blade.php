@@ -35,17 +35,11 @@
     <!-- END Hero -->
     <div class="content">
         <div class="block block-rounded">
-            {{-- <div class="block-header block-header-default">
-                <h3 class="block-title">Danh sách danh mục</h3>
-                <div class="block-options">
-                    <div class="block-options-item">
-                    </div>
-                </div>
-            </div> --}}
-
-            @if (auth()->user()->role == 'admin')
-                <a href="{{ route('admin.services_category.create') }}" class="btn btn-primary">Thêm mới</a>
-            @endif
+            <div class="block-content">
+                @if (auth()->user()->role == 'admin')
+                    <a href="{{ route('admin.services_category.create') }}" class="btn btn-primary">Thêm mới</a>
+                @endif
+            </div>  
 
             <div class="block-content">
                 <table class="table table-hover" id="bookingsTable">
@@ -77,11 +71,10 @@
                                             </a>
                                             <form
                                                 action="{{ route('admin.services_category.destroy', $serviceCategory->id) }}"
-                                                method="post">
+                                                method="post" class="form-delete">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="submit"
-                                                    onclick="return confirm('Bạn có chắc muốn xoá?')"
                                                     class="btn btn-sm btn-alt-danger mx-2 d-flex align-items-center"
                                                     style="height: 30px; line-height: 30px;" title="Xóa">
                                                     <i class="far fa-trash-can"></i>
@@ -98,3 +91,34 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteBtns = document.querySelectorAll('.form-delete');
+
+            for (const btn of deleteBtns) {
+                btn.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: "Xác nhận xóa?",
+                        text: "Nếu xóa bạn sẽ không thể khôi phục!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Đồng ý',
+                        cancelButtonText: 'Hủy'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+@endsection
+

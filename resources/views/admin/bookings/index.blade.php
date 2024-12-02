@@ -34,17 +34,9 @@
   <!-- END Hero -->
 <div class="content">
     <div class="block block-rounded">
-        <div class="block-header block-header-default">
-            <h3 class="block-title">Danh sách đặt lịch</h3>
-            <div class="block-options">
-                <div class="block-options-item">
-                </div>
-            </div>
-        </div>
-
         <div class="block-content">
             <form method="GET" action="{{ route('admin.bookings.index') }}">
-                <div class="row mb-4">
+                <div class="row mt-3">
                     <!-- Tìm kiếm theo tên khách hàng -->
                     <div class="col-md-3">
                         <input type="text" name="customer_name" class="form-control" placeholder="Tìm kiếm tên khách hàng" value="{{ request()->get('customer_name') }}">
@@ -82,7 +74,7 @@
             </form>
         </div>
 
-        <div class="block-content">
+        <div class="block-content pt-0">
             <table class="table table-hover" id="bookingsTable">
                 <thead>
                     <tr>

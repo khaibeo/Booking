@@ -29,17 +29,26 @@
     <!-- END Hero -->
     <div class="content">
         <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">Danh sách nhân viên</h3>
+                <div class="block-options">
+                    <div class="block-options-item">
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-alt-primary"
+                            data-bs-toggle="tooltip" title="Thêm nhân viên"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            
             <form action="{{ route('admin.users.index') }}" class="row block-header align-items-end" method="GET">
                 <div class="col-lg-4">
-                    <label for="name">Tên nhân viên</label>
                     <input id="name" class="form-control mt-2" value="{{ request('name') }}" type="text"
                         name="name" placeholder="Tìm kiếm theo tên nhân viên">
                 </div>
 
                 <div class="col-lg-4">
-                    <label for="role">Vai trò</label>
                     <select class="form-select mt-2" name="role" id="role">
-                        <option value="">Tất cả</option>
+                        <option value="">Lọc theo vai trò</option>
+                        <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                         <option value="manager" {{ request('role') == 'manager' ? 'selected' : '' }}>Quản lý</option>
                         <option value="staff" {{ request('role') == 'staff' ? 'selected' : '' }}>Nhân viên</option>
                         <option value="cashier" {{ request('role') == 'cashier' ? 'selected' : '' }}>Thu ngân</option>s
@@ -51,22 +60,13 @@
                 </div>
             </form>
 
-            <div class="block-header block-header-default">
-                <h3 class="block-title">Danh sách nhân viên</h3>
-                <div class="block-options">
-                    <div class="block-options-item">
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-alt-primary"
-                            data-bs-toggle="tooltip" title="Thêm nhân viên"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="block-content">
+            <div class="block-content pt-0">
                 @if ($users->count() > 0)
                     <table class="table table-hover" id="usersTable">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">#</th>
-                                <th></th>
+                                <th>Ảnh</th>
                                 <th>Tên</th>
                                 <th class="d-none d-sm-table-cell">Vai trò</th>
                                 <th class="d-none d-sm-table-cell">Số điện thoại</th>

@@ -44,9 +44,9 @@
             </div> --}}
 
             @if (auth()->user()->role == 'admin')
-            <div class="block-content">
-                <a href="{{ route('admin.services.create') }}" class="btn btn-primary">Thêm mới</a>
-            </div>
+                <div class="block-content">
+                    <a href="{{ route('admin.services.create') }}" class="btn btn-primary">Thêm mới</a>
+                </div>
             @endif
 
             <div class="block-content">
@@ -59,7 +59,7 @@
                             <th class="d-none d-sm-table-cell">Giá</th>
                             <th class="d-none d-sm-table-cell">Thời gian</th>
                             @if (auth()->user()->role == 'admin')
-                            <th class="text-center" style="width: 100px;">Tùy chọn</th>
+                                <th class="text-center" style="width: 100px;">Tùy chọn</th>
                             @endif
                         </tr>
                     </thead>
@@ -72,26 +72,29 @@
                                 <td class="d-none d-sm-table-cell">{{ number_format($service->price, 0, ',', '.') }} đ
                                 </td>
                                 <td class="d-none d-sm-table-cell">{{ $service->duration }} phút </td>
-                                
+
                                 @if (auth()->user()->role == 'admin')
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <!-- Cập nhật trạng thái -->
-                                        <a type="button" class="btn btn-sm btn-alt-warning mx-2 d-flex align-items-center"
-                                            style="height: 30px; line-height: 30px;"
-                                            href="{{ route('admin.services.edit', $service->id) }}" title="Chỉnh sửa">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-                                        <form action="{{ route('admin.services.destroy', $service->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xoá?')" class="btn btn-sm btn-alt-danger mx-2 d-flex align-items-center"
-                                                style="height: 30px; line-height: 30px;" title="Chỉnh sửa">
-                                                <i class="far fa-trash-can"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <!-- Cập nhật trạng thái -->
+                                            <a type="button"
+                                                class="btn btn-sm btn-alt-warning mx-2 d-flex align-items-center"
+                                                style="height: 30px; line-height: 30px;"
+                                                href="{{ route('admin.services.edit', $service->id) }}" title="Chỉnh sửa">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
+                                            <form action="{{ route('admin.services.destroy', $service->id) }}"
+                                                method="post" class="form-delete">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-alt-danger mx-2 d-flex align-items-center"
+                                                    style="height: 30px; line-height: 30px;" title="Chỉnh sửa">
+                                                    <i class="far fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 @endif
                             </tr>
                         @endforeach
@@ -150,36 +153,31 @@
         });
     </script>
 
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const deleteForms = document.querySelectorAll('.form-delete');
+            const deleteBtns = document.querySelectorAll('.form-delete');
 
-            deleteForms.forEach(function(form) {
-                form.addEventListener('submit', function(e) {
+            for (const btn of deleteBtns) {
+                btn.addEventListener('submit', function(e) {
                     e.preventDefault();
 
-                    const status = this.querySelector('input[name="status"]').value;
-
-                    if (status !== 'completed' && status !== 'cancelled') {
-                        Swal.fire({
-                            title: "Xác nhận hủy?",
-                            text: "Nếu hủy bạn sẽ không thể khôi phục!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Đồng ý',
-                            cancelButtonText: 'Hủy'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                this.submit();
-                            }
-                        });
-                    }
+                    Swal.fire({
+                        title: "Xác nhận xóa?",
+                        text: "Nếu xóa bạn sẽ không thể khôi phục!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Đồng ý',
+                        cancelButtonText: 'Hủy'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    });
                 });
-            });
+            }
         });
     </script>
 @endsection
