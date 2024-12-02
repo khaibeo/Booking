@@ -11,7 +11,7 @@
             <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('admin.services_category.index') }}" style="color: inherit;">Danh mục</a>
+                        <a href="{{ route('admin.service-category.index') }}" style="color: inherit;">Danh mục</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Thêm mới danh mục</li>
                 </ol>
@@ -23,7 +23,7 @@
   <div class="content">
     <div class="block block-rounded">
         <div class="block-content">
-            <form action="{{ route('admin.services_category.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.service-category.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <h2 class="content-heading pt-0">Thêm mới danh mục</h2>
 

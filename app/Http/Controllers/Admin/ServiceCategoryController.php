@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
+use App\Models\ServiceCategory;
 use App\Services\CategoryService;
-use Illuminate\Http\Request;
 
 class ServiceCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     protected $serviceCategoryService;
 
     public function __construct(CategoryService $serviceCategoryService)
@@ -26,81 +23,57 @@ class ServiceCategoryController extends Controller
         return view('admin.serviceCategory.index', compact('serviceCategories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
+        $this->authorize('create', ServiceCategory::class);
         return view('admin.serviceCategory.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCategoryRequest $request)
     {
         try {
             $this->serviceCategoryService->storeCategory($request->all());
 
-            return redirect()->route('admin.services_category.index');
+            return redirect()->route('admin.service-category.index');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
-
-            return redirect()->back();
+            return back()->with('error', 'Đã có lỗi xảy ra');
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(ServiceCategory $service_category)
     {
-        //
+        $this->authorize('update', $service_category);
+
+        return view('admin.serviceCategory.edit', compact('service_category'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $serviceCategoryId = $this->serviceCategoryService->loadIdCategory($id);
-
-        return view('admin.serviceCategory.edit', compact('serviceCategoryId'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(StoreCategoryRequest $request, ServiceCategory $service_category)
     {
         try {
-            $this->serviceCategoryService->updateCategory($id, $request->all());
+            $this->serviceCategoryService->updateCategory($service_category, $request->validated());
 
-            return redirect()->route('admin.services_category.index')->with('success', 'Cập nhật thành công');
+            return redirect()->route('admin.service-category.index')->with('success', 'Cập nhật thành công');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
-
-            return back();
+            return back()->with('error', 'Đã có lỗi xảy ra');
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(ServiceCategory $service_category)
     {
+        $this->authorize('delete', $service_category);
+
         try {
-            $check = $this->serviceCategoryService->checkService($id);
+            $check = $this->serviceCategoryService->checkService($service_category);
 
             if ($check) {
                 return back()->with('error', 'Danh mục đang có dịch vụ, không thể xóa !');
             }
 
-            $this->serviceCategoryService->deleteCategory($id);
+            $this->serviceCategoryService->deleteCategory($service_category);
 
             return back()->with('success', 'Xóa thành công');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return back()->with('error', 'Đã có lỗi xảy ra');
         }
     }
 }

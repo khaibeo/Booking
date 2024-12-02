@@ -23,9 +23,9 @@ class CategoryService
         return ServiceCategory::query()->find($id);
     }
 
-    public function updateCategory($id, array $data)
+    public function updateCategory($category, array $data)
     {
-        return $this->loadIdCategory($id)->update($data);
+        return $category->update($data);
     }
 
     public function update($category, $data)
@@ -40,11 +40,8 @@ class CategoryService
         });
     }
 
-    public function checkService($id)
+    public function checkService($category)
     {
-        $category = ServiceCategory::findOrFail($id);
-
-        // Kiểm tra nếu danh mục có bất kỳ service nào liên quan
         if ($category->services()->exists()) {
             return true;
         }
@@ -52,12 +49,10 @@ class CategoryService
         return false;
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory($category)
     {
         try {
             DB::beginTransaction();
-
-            $category = ServiceCategory::findOrFail($id);
             $category->delete();
             DB::commit();
 

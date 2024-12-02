@@ -10,13 +10,18 @@ class ServiceCategoryPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @return mixed
-     */
+    public function create(User $user)
+    {
+        return $user->role == 'admin';
+    }
+
+    public function update(User $user, ServiceCategory $serviceCategory)
+    {
+        return $user->role == 'admin';
+    }
+
     public function delete(User $user, ServiceCategory $serviceCategory)
     {
-        return $user->role === 'manager';
+        return $user->role == 'admin';
     }
 }

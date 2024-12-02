@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('duration');
-            $table->float('price');
+            $table->integer('price');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -27,13 +27,13 @@ class ServiceService
         return Service::query()->create($request);
     }
 
-    public function updateService(array $data, $id)
+    public function updateService(array $data, $service)
     {
-        return $this->getServiceById($id)->update($data);
+        return $service->update($data);
     }
 
-    public function deleteService($id)
+    public function deleteService($service)
     {
-        return Service::query()->where('id', $id)->delete();
+        return $service->delete();
     }
 }

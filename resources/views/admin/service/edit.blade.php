@@ -23,7 +23,7 @@
     <div class="content">
         <div class="block block-rounded">
             <div class="block-content">
-                <form action="{{ route('admin.services.update', $getServiceId->id) }}" method="POST">
+                <form action="{{ route('admin.services.update', $service->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <h2 class="content-heading pt-0">Cập nhật dịch vụ</h2>
@@ -34,8 +34,7 @@
                             <div class="mb-4">
                                 <label class="form-label" for="name">Tên dịch vụ</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" value="{{ $getServiceId->name }}"
-                                    placeholder="Nhập tên nhân viên">
+                                    id="name" name="name" value="{{ $service->name }}">
                                 @error('name')
                                     <div class="text-danger mt-2" id="name-error">{{ $message }}</div>
                                 @enderror
@@ -46,10 +45,10 @@
                                 <select class="form-control @error('category_id') is-invalid @enderror" id="category_id "
                                     name="category_id">
                                     <option value="" disabled selected>Chọn danh mục</option>
-                                    @foreach ($getServiceCategoy as $serviceCategory)
-                                        <option value="{{ $serviceCategory->id }}"
-                                            {{ $getServiceId->category_id == $serviceCategory->id ? 'selected' : '' }}>
-                                            {{ $serviceCategory->name }}
+                                    @foreach ($serviceCategories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ $service->category_id == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -62,7 +61,7 @@
                             <div class="mb-4">
                                 <label class="form-label" for="email">Mô tả</label>
                                 <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description"
-                                    name="description" placeholder="Nhập mô tả">{{ $getServiceId->description }}</textarea>
+                                    name="description">{{ $service->description }}</textarea>
                                 @error('description')
                                     <div class="text-danger mt-2" id="email-error">{{ $message }}</div>
                                 @enderror
@@ -72,8 +71,7 @@
                             <div class="mb-4">
                                 <label class="form-label" for="phone">Thời gian</label>
                                 <input type="text" class="form-control @error('duration') is-invalid @enderror"
-                                    id="duration" name="duration" value="{{ $getServiceId->duration }}"
-                                    placeholder="Nhập thời gian">
+                                    id="duration" name="duration" value="{{ $service->duration }}">
                                 @error('duration')
                                     <div class="text-danger mt-2" id="phone-error">{{ $message }}</div>
                                 @enderror
@@ -83,7 +81,7 @@
                             <div class="mb-4">
                                 <label class="form-label" for="price">Giá</label>
                                 <input type="text" class="form-control @error('price') is-invalid @enderror"
-                                    value="{{ $getServiceId->price }}" id="price" name="price" placeholder="Nhập giá">
+                                    value="{{ $service->price }}" id="price" name="price">
                                 @error('price')
                                     <div class="text-danger mt-2" id="image-error">{{ $message }}</div>
                                 @enderror

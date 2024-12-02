@@ -11,7 +11,7 @@
             <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('admin.services_category.index') }}" style="color: inherit;">Danh mục</a>
+                        <a href="{{ route('admin.service-category.index') }}" style="color: inherit;">Danh mục</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Cập nhật danh mục</li>
                 </ol>
@@ -23,7 +23,7 @@
   <div class="content">
     <div class="block block-rounded">
         <div class="block-content">
-            <form action="{{ route('admin.services_category.update', $serviceCategoryId->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.service-category.update', $service_category->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <h2 class="content-heading pt-0">Cập nhật danh mục</h2>
@@ -33,14 +33,14 @@
                         <!-- Tên nhân viên -->
                         <div class="mb-4">
                             <label class="form-label" for="name">Tên danh mục</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $serviceCategoryId->name) }}" placeholder="Nhập tên danh mục" >
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $service_category->name) }}" placeholder="Nhập tên danh mục" >
                             @error('name')
                                 <div class="text-danger mt-2" id="name-error">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-4">
                             <label class="form-label" for="name">Mô tả</label>
-                            <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description"  placeholder="Mô tả" >{{ old('name', $serviceCategoryId->description) }}</textarea>
+                            <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description"  placeholder="Mô tả" >{{ old('name', $service_category->description) }}</textarea>
                             @error('description')
                                 <div class="text-danger mt-2" id="name-error">{{ $message }}</div>
                             @enderror

@@ -31,13 +31,7 @@ class BookingController extends Controller
 
     public function show(Booking $booking)
     {
-        if (auth()->user()->role == 'staff' && auth()->user()->id != $booking->user_id) {
-            abort(403);
-        }
-
-        if (auth()->user()->store_id != $booking->store_id) {
-            abort(403);
-        }
+        $this->authorize('show', $booking);
 
         $bookingDetail = $booking->details()->with(['service' => function ($query) {
             $query->withTrashed();
@@ -52,6 +46,8 @@ class BookingController extends Controller
 
     public function updateStatus(Request $request, Booking $booking)
     {
+        $this->authorize('update', $booking);
+
         $result = $this->bookingService->updateBookingStatus($request, $booking);
         if (isset($result['error'])) {
             return redirect()->back()->with('error', $result['error']);
@@ -62,6 +58,8 @@ class BookingController extends Controller
 
     public function cancel(Request $request, Booking $booking)
     {
+        $this->authorize('delete', $booking);
+
         $result = $this->bookingService->cancelBooking($booking);
         if (isset($result['error'])) {
             return redirect()->back()->with('error', $result['error']);

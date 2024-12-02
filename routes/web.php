@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\BookingController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
-use App\Http\Controllers\Admin\ServicesController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StaffScheduleController;
 use App\Http\Controllers\Admin\StoreController;
@@ -67,13 +66,11 @@ Route::prefix('admin')
             // USERS
             Route::resource('users', UserController::class);
 
-            // CATEGORIES
-            Route::resource('categories', CategoryController::class);
-
             // SERVICES_Categories
-            Route::resource('services_category', ServiceCategoryController::class);
+            Route::resource('service-category', ServiceCategoryController::class);
+
             // SERVICES
-            Route::resource('services', ServicesController::class);
+            Route::resource('services', ServiceController::class);
 
             Route::prefix('settings')->as('settings.')->group(function () {
                 Route::get('/', [SettingController::class, 'show'])->name('show');

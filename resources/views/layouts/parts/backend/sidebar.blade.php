@@ -119,26 +119,26 @@
                         </ul>
                     </li>
 
-                    {{-- Service_Category --}}
+                    {{-- Service-Category --}}
                     @can('is-admin')
                         <li
-                            class="nav-main-item{{ request()->is('admin/services_category/*') || request()->is('admin/services_category') ? ' open' : '' }}">
+                            class="nav-main-item{{ request()->is('admin/service-category/*') || request()->is('admin/service-category') ? ' open' : '' }}">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
-                                aria-expanded="{{ request()->is('admin/services_category/*') ? 'true' : 'false' }}"
+                                aria-expanded="{{ request()->is('admin/service-category/*') ? 'true' : 'false' }}"
                                 href="#">
                                 <i class="nav-main-link-icon fa fa-list-ul"></i>
                                 <span class="nav-main-link-name">Danh mục</span>
                             </a>
-                            <ul class="nav-main-submenu{{ request()->is('admin/services_category/*') ? ' show' : '' }}">
+                            <ul class="nav-main-submenu{{ request()->is('admin/service-category/*') ? ' show' : '' }}">
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link{{ request()->is('admin/services_category') ? ' active' : '' }}"
-                                        href="{{ route('admin.services_category.index') }}">
+                                    <a class="nav-main-link{{ request()->is('admin/service-category') ? ' active' : '' }}"
+                                        href="{{ route('admin.service-category.index') }}">
                                         <span class="nav-main-link-name">Danh sách</span>
                                     </a>
                                 </li>
                                 <li class="nav-main-item">
-                                    <a class="nav-main-link{{ request()->is('admin/services_category/create') ? ' active' : '' }}"
-                                        href="{{ route('admin.services_category.create') }}">
+                                    <a class="nav-main-link{{ request()->is('admin/service-category/create') ? ' active' : '' }}"
+                                        href="{{ route('admin.service-category.create') }}">
                                         <span class="nav-main-link-name">Thêm mới</span>
                                     </a>
                                 </li>
@@ -148,14 +148,14 @@
 
                     @can('is-manager')
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="{{ route('admin.services_category.index') }}">
+                            <a class="nav-main-link" href="{{ route('admin.service-category.index') }}">
                                 <i class="nav-main-link-icon fa fa-list-ul"></i>
                                 <span class="nav-main-link-name">Danh mục</span>
                             </a>
                         </li>
                     @endcan
                     {{-- Service --}}
-                    @can('admin')
+                    @can('is-admin')
                         <li
                             class="nav-main-item{{ request()->is('admin/services/*') || request()->is('admin/services') ? ' open' : '' }}">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"

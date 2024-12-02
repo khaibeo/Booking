@@ -24,7 +24,7 @@
                 <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.services_category.index') }}" style="color: inherit;">Danh mục</a>
+                            <a href="{{ route('admin.service-category.index') }}" style="color: inherit;">Danh mục</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">Danh sách </li>
                     </ol>
@@ -35,11 +35,12 @@
     <!-- END Hero -->
     <div class="content">
         <div class="block block-rounded">
-            <div class="block-content">
-                @if (auth()->user()->role == 'admin')
-                    <a href="{{ route('admin.services_category.create') }}" class="btn btn-primary">Thêm mới</a>
-                @endif
-            </div>  
+            @can('is-admin')
+                <div class="block-content">
+                    <a href="{{ route('admin.service-category.create') }}" class="btn btn-primary">Thêm mới</a>
+                </div>
+            @endcan
+
 
             <div class="block-content">
                 <table class="table table-hover" id="bookingsTable">
@@ -64,13 +65,13 @@
                                     <td class="d-none d-sm-table-cell table-cell-store">
                                         <div class="btn-group">
                                             <!-- Cập nhật trạng thái -->
-                                            <a href="{{ route('admin.services_category.edit', $serviceCategory->id) }}"
+                                            <a href="{{ route('admin.service-category.edit', $serviceCategory->id) }}"
                                                 class="btn btn-sm btn-alt-warning mx-2 d-flex align-items-center"
                                                 style="height: 30px; line-height: 30px;" title="Chỉnh sửa">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
                                             <form
-                                                action="{{ route('admin.services_category.destroy', $serviceCategory->id) }}"
+                                                action="{{ route('admin.service-category.destroy', $serviceCategory->id) }}"
                                                 method="post" class="form-delete">
                                                 @method('delete')
                                                 @csrf
@@ -121,4 +122,3 @@
         });
     </script>
 @endsection
-
