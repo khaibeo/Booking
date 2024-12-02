@@ -61,11 +61,8 @@ class BookingController extends Controller
         $this->authorize('delete', $booking);
 
         $result = $this->bookingService->cancelBooking($booking);
-        if (isset($result['error'])) {
-            return redirect()->back()->with('error', $result['error']);
-        }
 
-        return redirect()->back()->with('success', $result['success']);
+        return redirect()->back()->with('success', 'Xóa thành công');
     }
 
     public function showBookingsForStaff()

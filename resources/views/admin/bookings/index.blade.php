@@ -135,16 +135,16 @@
                                     <form action="{{ route('admin.bookings.cancel', $booking) }}" method="POST" class="form-delete" style="display: inline;">
                                         @csrf
                                         <input type="hidden" name="status" value="{{ $booking->status }}">
-                                        @if($booking->status == 'completed' || $booking->status == 'cancelled')
+                                        @if($booking->status == 'completed')
                                             <button type="button" class="btn btn-sm btn-alt-danger"
                                                 style="height: 30px; line-height: 30px; cursor: not-allowed; background-color: #e0e0e0; color: #999; border: none;"
-                                                data-bs-toggle="tooltip" title="Không thể hủy">
+                                                data-bs-toggle="tooltip" title="Không thể xóa">
                                                 <i class="fa fa-times"></i>
                                             </button>
                                         @else
                                             <button type="submit" class="btn btn-sm btn-alt-danger"
                                                 style="height: 30px; line-height: 30px;"
-                                                data-bs-toggle="tooltip" title="Hủy">
+                                                data-bs-toggle="tooltip" title="Xóa">
                                                 <i class="fa fa-times"></i>
                                             </button>
                                         @endif
@@ -252,7 +252,7 @@
 
                 const status = this.querySelector('input[name="status"]').value;
 
-                if (status !== 'completed' && status !== 'cancelled') {
+                if (status !== 'completed') {
                     Swal.fire({
                         title: "Xác nhận hủy?",
                         text: "Nếu hủy bạn sẽ không thể khôi phục!",

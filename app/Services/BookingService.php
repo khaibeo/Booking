@@ -78,9 +78,7 @@ class BookingService
             return ['error' => 'Không thể hủy đặt chỗ đã hoàn thành.'];
         }
 
-        $booking->update(['status' => 'cancelled']);
-
-        return ['success' => 'Đặt chỗ đã được hủy thành công.'];
+        return $booking->delete();
     }
 
     public function getBookingsForCurrentStaff()
