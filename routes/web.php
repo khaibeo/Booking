@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
@@ -65,6 +66,12 @@ Route::prefix('admin')
 
             // USERS
             Route::resource('users', UserController::class);
+
+            Route::prefix('profile')->as('profile.')->group(function () {
+                Route::get('/{user}', [ProfileController::class, 'show'])->name('show');
+                Route::put('/{user}', [ProfileController::class, 'update'])->name('update');
+                Route::put('/change-password/{user}', [ProfileController::class, 'changePassword'])->name('change-password');
+            });
 
             // SERVICES_Categories
             Route::resource('service-category', ServiceCategoryController::class);

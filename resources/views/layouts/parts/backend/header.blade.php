@@ -34,17 +34,18 @@
                         Thao tác
                     </div>
                     <div class="p-2">
-                        {{-- <a class="dropdown-item" href="javascript:void(0)">
-                <i class="far fa-fw fa-user me-1"></i> Profile
-              </a>
-              <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                <span><i class="far fa-fw fa-envelope me-1"></i> Inbox</span>
-                <span class="badge bg-primary rounded-pill">3</span>
-              </a>
-              <a class="dropdown-item" href="javascript:void(0)">
-                <i class="far fa-fw fa-file-alt me-1"></i> Invoices
-              </a> --}}
-                        <div role="separator" class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('admin.profile.show', auth()->id()) }}">
+                            <i class="far fa-fw fa-user me-1"></i> Tài khoản
+                        </a>
+                        {{-- <a class="dropdown-item d-flex align-items-center justify-content-between"
+                            href="javascript:void(0)">
+                            <span><i class="far fa-fw fa-envelope me-1"></i> Inbox</span>
+                            <span class="badge bg-primary rounded-pill">3</span>
+                        </a>
+                        <a class="dropdown-item" href="javascript:void(0)">
+                            <i class="far fa-fw fa-file-alt me-1"></i> Invoices
+                        </a>
+                        <div role="separator" class="dropdown-divider"></div> --}}
 
                         <!-- END Side Overlay -->
 

@@ -24,7 +24,6 @@ class User extends Authenticatable
         'email',
         'phone',
         'role',
-        'image_id',
         'password',
         'biography',
         'is_locked',
@@ -67,7 +66,7 @@ class User extends Authenticatable
 
     public function image()
     {
-        return $this->belongsTo(Image::class);
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     public function schedules()

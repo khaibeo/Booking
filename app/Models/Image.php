@@ -11,5 +11,10 @@ class Image extends Model
 
     protected $fillable = [
         'path',
+        'name',
+        'url',
+        'alt',
+        'mime_type',
+        'file_size'
     ];
 }

@@ -15,9 +15,6 @@ class UserService
 {
     use ImageUploadTrait;
 
-    /**
-     * Create a new user with image handling.
-     */
     public function createUser(array $data)
     {
         $data['password'] = Hash::make($data['password']);
@@ -39,7 +36,7 @@ class UserService
             $data['image_id'] = $data['image_id'];
         }
 
-        if(!isset($data['store_id'])){
+        if (!isset($data['store_id'])) {
             $data['store_id'] = auth()->user()->store_id;
         }
 
@@ -51,19 +48,21 @@ class UserService
         return Store::all();
     }
 
-    public function updateUser($id, array $request)
+    public function updateUser(User $user, array $data)
     {
-        $user = $this->getUserById($id);
-
-        if (isset($request['image'])) {
-            $request['image'] = $this->handleImage(
-                $request['image'],
-                $user->image,
-                'image_users'
+        if (isset($data['image'])) {
+            $image = $this->handleImage(
+                $data['image'],
+                $user->image?->path,
+                'user_images'
             );
+
+            $user->image()->delete();
+
+            $user->image()->create($image);
         }
 
-        return $user->update($request);
+        return $user->update($data);
     }
 
     public function update($id, array $data)
@@ -97,13 +96,13 @@ class UserService
         $query = User::query()->with(['store', 'image'])
             ->select('id', 'store_id', 'name', 'image_id', 'role', 'phone', 'created_at');
 
-        if($storeId){
+        if ($storeId) {
             $query = $query->where('store_id', $storeId);
         }
 
         // Lọc theo tên
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%'.$request->input('name').'%');
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
         // Lọc theo vai trò
@@ -127,5 +126,15 @@ class UserService
     public function getUserById($id)
     {
         return User::with(['store', 'image'])->find($id);
+    }
+
+    public function checkPassword(User $user, $password)
+    {
+        return Hash::check($password, $user->password);
+    }
+
+    public function changePassword(User $user, $newPassword)
+    {
+        return $user->update(['password' => Hash::make($newPassword)]);
     }
 }

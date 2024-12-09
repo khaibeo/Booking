@@ -38,4 +38,9 @@ class UserPolicy
 
         return $user->store_id == $model->store_id;
     }
+
+    public function viewProfile(User $user, User $model): bool
+    {
+        return $user->id == $model->id;
+    }
 }

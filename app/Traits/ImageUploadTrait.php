@@ -12,26 +12,31 @@ trait ImageUploadTrait
      *
      * @return string|null
      */
-    public function uploadFile(UploadedFile $file, string $directory = 'image_app')
+    public function uploadFile(UploadedFile $file, string $directory = 'images')
     {
-        // Tạo tên file duy nhất
-        $fileName = time().'_'.$file->getClientOriginalName();
+        $fileName = time() . '_' . $file->getClientOriginalName();
 
-        // Lưu ảnh vào thư mục được chỉ định hoặc thư mục mặc định
-        return $file->storeAs($directory, $fileName, 'public');
+        $path = $file->storeAs($directory, $fileName, 'public');
+
+        return [
+            'name' => $fileName,
+            'path' => $path,
+            'mime_type' => $file->getMimeType(),
+            'size' => $file->getSize(),
+        ];
     }
 
     /**
      * Xử lý ảnh (xóa ảnh cũ và lưu ảnh mới nếu có).
      */
-    public function handleImage(?UploadedFile $newImage, ?string $currentImage, string $directory): ?string
+    public function handleImage(?UploadedFile $newImage, ?string $currentImage, string $directory)
     {
         // Nếu có ảnh mới
         if ($newImage) {
             // Nếu có ảnh cũ, kiểm tra và xóa ảnh cũ
 
-            if ($currentImage && Storage::exists('public/'.$currentImage)) {
-                Storage::delete('public/'.$currentImage);
+            if ($currentImage && Storage::disk('public')->exists($currentImage)) {
+                Storage::disk('public')->delete($currentImage);
             }
 
             // Lưu ảnh mới
