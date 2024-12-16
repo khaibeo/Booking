@@ -23,17 +23,6 @@ use App\Http\Controllers\Client\StoreController as ClientStoreController;
 use App\Http\Controllers\Staff\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', function () {
     return redirect()->route('login');
 })->middleware('guest');
@@ -42,6 +31,17 @@ Route::prefix('login')->middleware('guest')->group(function () {
     Route::view('/', 'auth.login')->name('login');
     Route::post('/', [AuthController::class, 'login'])->name('login.post');
 });
+
+Route::prefix('forgot-password')->middleware('guest')->as('password.')->group(function () {
+    Route::view('/', 'auth.forgot-password')->name('request');
+    Route::post('/', [AuthController::class, 'forgotPassword'])->name('email');
+});
+
+Route::get('/reset-password/{token}', function (string $token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.update');
 
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
