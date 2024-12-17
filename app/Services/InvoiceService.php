@@ -62,11 +62,19 @@ class InvoiceService
 
         if ($role === 'manager') {
             // Nếu là manager, đếm tất cả hóa đơn của store
-            return Invoice::where('store_id', $storeId)->count();
+            return Invoice::where('store_id', $storeId)
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->count();
         } elseif ($role === 'staff') {
             // Nếu là staff, đếm hóa đơn theo ngày hiện tại
             return Invoice::where('store_id', $storeId)
                 ->whereDate('created_at', now()->toDateString())
+                ->count();
+        } elseif ($role == 'admin') {
+            return Invoice::query()
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
                 ->count();
         }
 
@@ -86,7 +94,16 @@ class InvoiceService
 
         // Sử dụng whereHas để lọc các hóa đơn dựa trên vai trò của người dùng
         $query = InvoiceDetail::whereHas('invoice', function ($query) use ($storeId, $role) {
-            $query->where('store_id', $storeId);
+            if ($role === 'manager') {
+                $query->where('store_id', $storeId)
+                    ->whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year);
+            }
+
+            if ($role === 'admin') {
+                $query->whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year);
+            }
 
             // Nếu người dùng là staff, lọc hóa đơn theo ngày hiện tại
             if ($role === 'staff') {
@@ -106,7 +123,7 @@ class InvoiceService
         $store = $cashier->store;
 
         $invoice = Invoice::create([
-            'code' => $store->code.'-'.now()->timestamp,
+            'code' => $store->code . '-' . now()->timestamp,
             'user_id' => $cashier->id,
             'store_id' => $store->id,
             'name' => $request->name,
@@ -179,30 +196,47 @@ class InvoiceService
 
     public function getBookingCount($storeId = '')
     {
-        $role = Auth()->user()->role; // Lấy vai trò của người dùng đăng nhập
+        $role = Auth()->user()->role;
 
-        if ($role === 'manager') {
-            // Nếu là manager, đếm tổng số lượng booking của store
-            return Booking::where('store_id', $storeId)->count('id');
+        if ($role === 'admin') {
+            // Nếu là admin, đếm tổng số lượng booking trong tháng hiện tại
+            return Booking::query()
+                ->whereMonth('booking_date', now()->month)
+                ->whereYear('booking_date', now()->year)
+                ->count();
+        } elseif ($role === 'manager') {
+            // Nếu là manager, đếm tổng số lượng booking của store trong tháng hiện tại
+            return Booking::where('store_id', $storeId)
+                ->whereMonth('booking_date', now()->month)
+                ->whereYear('booking_date', now()->year)
+                ->count();
         } elseif ($role === 'staff') {
             // Nếu là staff, đếm số lượng booking theo ngày hiện tại
             return Booking::where('store_id', $storeId)
-                ->whereDate('created_at', now()->toDateString())
-                ->count('id');
+                ->whereDate('booking_date', now()->toDateString())
+                ->count();
         }
 
-        return 0; // Trả về 0 nếu không phải manager hoặc staff
+        return 0; // Trả về 0 nếu không phải admin, manager hoặc staff
     }
+
 
     public function getTotalRevenue($storeId = '')
     {
         $role = Auth()->user()->role; // Lấy vai trò của người dùng đăng nhập
 
-        $query = Invoice::where('store_id', $storeId);
+        $query = Invoice::query();
+
+        if ($role == 'manager') {
+            $query->where('store_id', $storeId);
+        }
 
         // Nếu người dùng là staff, thêm điều kiện lấy hóa đơn theo ngày hiện tại
         if ($role === 'staff') {
             $query->whereDate('created_at', now()->toDateString());
+        } else {
+            $query->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year);
         }
 
         // Tính tổng doanh thu
@@ -211,21 +245,34 @@ class InvoiceService
 
     public function getRevenueByService($storeId = '')
     {
-        return InvoiceDetail::join('services', 'invoice_details.service_id', '=', 'services.id')
+        $query = InvoiceDetail::join('services', 'invoice_details.service_id', '=', 'services.id')
             ->join('invoices', 'invoice_details.invoice_id', '=', 'invoices.id')
             ->select('services.name', InvoiceDetail::raw('SUM(invoice_details.price) as revenue'))
-            ->where('invoices.store_id', $storeId)
-            ->groupBy('services.name')
-            ->get();
+            ->whereMonth('invoices.created_at', now()->month)
+            ->whereYear('invoices.created_at', now()->year);;
+
+        if (auth()->user()->role == 'manager') {
+            $query->where('invoices.store_id', $storeId);
+        }
+
+        $data = $query->groupBy('services.name')->get();
+
+        return $data;
     }
 
     public function getMonthlyRevenueAndAverage($storeId = '')
     {
-        return Invoice::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(total_amount) as total_revenue, AVG(total_amount) as avg_revenue_per_invoice')
-            ->where('created_at', '>=', now()->subMonths(12)) // Lấy dữ liệu trong 12 tháng gần nhất
-            ->where('store_id', $storeId)
-            ->groupByRaw('YEAR(created_at), MONTH(created_at)')
-            ->orderByRaw('YEAR(created_at), MONTH(created_at)')
-            ->get();
+        $query = Invoice::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(total_amount) as total_revenue, AVG(total_amount) as avg_revenue_per_invoice')
+        ->where('created_at', '>=', now()->subMonths(12));
+        
+        if (auth()->user()->role == 'manager') {
+            $query->where('store_id', $storeId);
+        }
+
+        $data = $query->groupByRaw('YEAR(created_at), MONTH(created_at)')
+        ->orderByRaw('YEAR(created_at), MONTH(created_at)')
+        ->get();
+
+        return $data;
     }
 }
