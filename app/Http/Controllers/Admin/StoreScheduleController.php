@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\OpeningStoreRequest;
+use App\Http\Requests\Admin\OpeningStoreRequest;
 use Illuminate\Http\Request;
 
 class StoreScheduleController extends Controller

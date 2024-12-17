@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StaffScheduleRequest;
-use App\Http\Requests\UpdateStaffScheduleRequest;
+use App\Http\Requests\Admin\StaffScheduleRequest;
+use App\Http\Requests\Admin\UpdateStaffScheduleRequest;
 use App\Models\StaffSchedule;
 use App\Services\StaffScheduleService;
 use App\Services\StoreService;

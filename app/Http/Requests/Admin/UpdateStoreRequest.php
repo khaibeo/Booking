@@ -21,12 +21,16 @@ class UpdateStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $store = $this->route('store');
+
         return [
-            'name' => 'required|min:2',
-            'address' => 'required|min:10',
-            'link_map' => 'required|string',
-            'phone' => 'required|min:8',
-            'image' => 'required_without:old_image|image|mimes:jpg,jpeg,png|max:5120',
+            'name' => 'required|string|min:2',
+            'address' => 'required|string|min:10',
+            'link_map' => 'required|url',
+            'phone' => 'required|string|min:8|unique:stores,phone,'.$store->id,
+            'code' => 'required|unique:stores,code,'.$store->id,
+            'image_id' => 'required',
+            'description' => 'required|string',
         ];
     }
 
@@ -34,21 +38,18 @@ class UpdateStoreRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên không được bỏ trống.',
+            'code.required' => 'Mã không được bỏ trống.',
             'name.min' => 'Tên phải có ít nhất 2 ký tự.',
-
             'address.required' => 'Địa chỉ không được bỏ trống.',
             'address.min' => 'Địa chỉ phải có ít nhất 10 ký tự.',
-
-            'link_map.string' => 'Vị trí phải là một chuỗi hợp lệ.',
-            'link_map.required' => 'Vị trí không được để trống.',
-
+            'link_map.required' => 'Địa chỉ bản đồ không được bỏ trống.',
+            'link_map.url' => 'Địa chỉ bản đồ không hợp lệ.',
             'phone.required' => 'Số điện thoại không được bỏ trống.',
             'phone.min' => 'Số điện thoại phải có ít nhất 8 ký tự.',
-
-            'image.required_without' => 'Cần phải cung cấp ảnh mới nếu không có ảnh cũ.',
-            'image.image' => 'Tệp tải lên phải là một hình ảnh.',
-            'image.mimes' => 'Ảnh phải có định dạng: jpg, jpeg, png.',
-            'image.max' => 'Ảnh không được lớn hơn 5MB.',
+            'phone.unique' => 'Số điện thoại đã tồn tại.',
+            'code.unique' => 'Mã đã tồn tại.',
+            'image_id.required' => 'Hãy chọn một hình ảnh.',
+            'description.required' => 'Mô tả không được bỏ trống.',
         ];
     }
 }

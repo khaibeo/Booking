@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\OpeningStoreRequest;
+use App\Http\Requests\Admin\OpeningStoreRequest;
 use App\Models\Store;
 use App\Models\StoreSchedule;
 use Illuminate\Support\Carbon;

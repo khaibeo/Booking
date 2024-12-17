@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Cashier;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreInvoiceRequest;
+use App\Http\Requests\Admin\StoreInvoiceRequest;
 use App\Models\Invoice;
 use App\Services\BookingService;
 use App\Services\InvoiceService;

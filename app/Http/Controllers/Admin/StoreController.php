@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreStoreRequest;
-use App\Http\Requests\UpdateStoreRequest;
+use App\Http\Requests\Admin\StoreStoreRequest;
+use App\Http\Requests\Admin\UpdateStoreRequest;
 use App\Models\Store;
 use App\Services\StoreService;
 use App\Traits\ImageUploadTrait;

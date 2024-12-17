@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ChangePasswordRequest;
-use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\Auth\ChangePasswordRequest;
+use App\Http\Requests\Admin\UpdateProfileRequest;
 use App\Models\User;
 use App\Services\UserService;
 
@@ -31,7 +31,7 @@ class ProfileController extends Controller
         $data = $request->validated();
 
         try {
-            $this->userService->updateUser($user, $data);
+            $this->userService->update($user, $data);
 
             return back()->with('success', 'Cập nhật thành công');
         } catch (\Throwable $th) {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ServiceRequest;
+use App\Http\Requests\Admin\ServiceRequest;
 use App\Models\Service;
 use App\Services\ServiceService;
 
