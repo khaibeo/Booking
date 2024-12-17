@@ -76,7 +76,7 @@ class StoreService
     {
         $query = User::query()
             ->with(['image'])->where('store_id', $store->id)
-            ->select('id', 'store_id', 'name', 'image_id', 'role', 'phone', 'email', 'created_at')
+            ->select('id', 'store_id', 'name', 'role', 'phone', 'email', 'created_at')
             ->orderBy('created_at', 'desc');
 
         // Lọc theo tên
