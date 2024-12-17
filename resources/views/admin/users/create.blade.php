@@ -71,7 +71,7 @@
 
                                 <input type="hidden" name="image_id" id="uploadedImage" value="">
 
-                                @error('image')
+                                @error('image_id')
                                     <div class="text-danger mt-2" id="image-error">{{ $message }}</div>
                                 @enderror
                             </div>

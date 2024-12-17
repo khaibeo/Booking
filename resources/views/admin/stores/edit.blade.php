@@ -138,12 +138,12 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             init: function() {
-                var existingImageId = "{{ $image['id'] }}";
-                var existingImageName = "{{ $image['name'] }}";
-                var existingImagePath = "{{ $image['path'] }}";
-                var existingImageSize = "{{ $image['size'] }}";
-                var myDropzone = this;
-                var uploadedImageInput = document.getElementById("uploadedImage");
+                const existingImageId = "{{ $image['id'] }}";
+                const existingImageName = "{{ $image['name'] }}";
+                const existingImagePath = "{{ $image['path'] }}";
+                const existingImageSize = "{{ $image['size'] }}";
+                const myDropzone = this;
+                const uploadedImageInput = document.getElementById("uploadedImage");
 
                 if (existingImageId) {
                     var mockFile = {

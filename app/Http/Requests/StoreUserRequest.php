@@ -22,7 +22,7 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('user'); // Hoặc cách lấy ID của người dùng hiện tại nếu có
+        $userId = $this->route('user');
 
         return [
             'name' => 'required|string|min:3',
@@ -38,8 +38,8 @@ class StoreUserRequest extends FormRequest
                 'digits_between:8,10',
                 Rule::unique('users')->ignore($userId),
             ],
-            'image_id' => 'nullable',
-            'store_id' => 'sometime|exists:stores,id',
+            'image_id' => 'required',
+            'store_id' => 'sometimes|exists:stores,id',
             'role' => 'required|in:admin,manager,staff,cashier',
             'is_locked' => 'required|in:0,1',
             'biography' => 'nullable',
@@ -61,8 +61,7 @@ class StoreUserRequest extends FormRequest
             'phone.numeric' => 'Số điện thoại phải là một số.',
             'phone.digits_between' => 'Số điện thoại phải có độ dài từ 8 đến 10 ký tự.',
             'phone.unique' => 'Số điện thoại đã tồn tại.',
-            'image.required' => 'Ảnh đại diện không được để trống.',
-            'image.image' => 'Tệp tải lên phải là một hình ảnh.',
+            'image_id.required' => 'Ảnh đại diện không được để trống.',
             'store_id.required' => 'Cửa hàng không được để trống.',
             'role.required' => 'Vai trò không được để trống.',
         ];

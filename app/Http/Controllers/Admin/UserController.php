@@ -46,19 +46,23 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        $stores = $this->userService->getStores();
-        $user = $this->userService->getUserById($user->id);
-        $imagePath = $user->image?->path;
-        $imageId = $user->image?->id;
+        $stores = Store::all();
+        
+        $image = [
+            'id' => $user->image?->id,
+            'name' => $user->image?->name,
+            'path' => $user->image?->path,
+            'size' => $user->image?->file_size,
+        ];
 
-        return view(self::PATH_VIEW.__FUNCTION__, compact('user', 'stores', 'imagePath', 'imageId'));
+        return view(self::PATH_VIEW.__FUNCTION__, compact('user', 'stores', 'image'));
     }
 
     public function update(StoreUserRequest $request, User $user)
     {
         $this->authorize('update', $user);
         try {
-            $this->userService->update($user->id, $request->validated());
+            $this->userService->update($user, $request->validated());
 
             return back()->with('success', 'Cập nhật nhân viên thành công');
         } catch (\Throwable $th) {
@@ -74,7 +78,7 @@ class UserController extends Controller
             if ($user->id == auth()->user()->id) {
                 return back()->with('error', 'Không thể xóa tài khoản của chính mình');
             }
-            $this->userService->deleteUser($user);
+            $this->userService->delete($user);
 
             return back()->with('success', 'Xóa thành công');
         } catch (\Throwable $th) {

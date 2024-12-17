@@ -69,21 +69,12 @@
 
                                 <div id="my-dropzone" class="dropzone"></div>
 
-                                <input type="hidden" name="image_id" id="uploadedImage" value="{{ $imageId }}">
+                                <input type="hidden" name="image_id" id="uploadedImage" value="{{ $image['id'] }}">
 
-                                @error('image')
+                                @error('image_id')
                                     <div class="text-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            {{-- <!-- Mật khẩu -->
-                        <div class="mb-4">
-                            <label class="form-label" for="password">Mật khẩu</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu"  >
-                            @error('password')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
-                        </div> --}}
 
                             <!-- Chọn cửa hàng -->
                             @if (auth()->user()->role == 'admin')
@@ -169,15 +160,17 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             init: function() {
-                var existingImageId = "{{ $imageId }}";
-                var existingImagePath = "{{ $imagePath }}";
-                var myDropzone = this;
-                var uploadedImageInput = document.getElementById("uploadedImage");
+                const existingImageId = "{{ $image['id'] }}";
+                const existingImageName = "{{ $image['name'] }}";
+                const existingImagePath = "{{ $image['path'] }}";
+                const existingImageSize = "{{ $image['size'] }}";
+                const myDropzone = this;
+                const uploadedImageInput = document.getElementById("uploadedImage");
 
                 if (existingImageId) {
                     var mockFile = {
-                        name: "Ảnh hiện tại",
-                        size: 100,
+                        name: `${existingImageName}`,
+                        size: `${existingImageSize}`,
                         accepted: true,
                         kind: 'existing'
                     };
@@ -197,7 +190,6 @@
 
                 this.on("addedfile", function(file) {
                     if (myDropzone.files.length > 1) {
-                        // Nếu đã có file, xóa file cũ
                         myDropzone.removeFile(myDropzone.files[0]);
                     }
                 });
