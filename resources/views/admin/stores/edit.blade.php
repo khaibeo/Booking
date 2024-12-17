@@ -98,8 +98,8 @@
                                 <label class="form-label" for="image">Ảnh đại diện</label>
                                 <div id="my-dropzone" class="dropzone"></div>
 
-                                <input type="hidden" name="image_id" id="uploadedImage" value="{{ $imageId }}">
-                                @error('image')
+                                <input type="hidden" name="image_id" id="uploadedImage" value="{{ $image['id'] }}">
+                                @error('image_id')
                                     <div class="text-danger mt-2" id="image-error">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -138,15 +138,17 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             init: function() {
-                var existingImageId = "{{ $imageId }}";
-                var existingImagePath = "{{ $imagePath }}";
+                var existingImageId = "{{ $image['id'] }}";
+                var existingImageName = "{{ $image['name'] }}";
+                var existingImagePath = "{{ $image['path'] }}";
+                var existingImageSize = "{{ $image['size'] }}";
                 var myDropzone = this;
                 var uploadedImageInput = document.getElementById("uploadedImage");
 
                 if (existingImageId) {
                     var mockFile = {
-                        name: "Ảnh hiện tại",
-                        size: 100,
+                        name: `${existingImageName}`,
+                        size: `${existingImageSize}`,
                         accepted: true,
                         kind: 'existing'
                     };
@@ -166,7 +168,6 @@
 
                 this.on("addedfile", function(file) {
                     if (myDropzone.files.length > 1) {
-                        // Nếu đã có file, xóa file cũ
                         myDropzone.removeFile(myDropzone.files[0]);
                     }
                 });

@@ -11,15 +11,18 @@ class UploadController extends Controller
     {
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = time() . '_' . $file->getClientOriginalName();
 
             $path = $file->storeAs('images', $filename, 'public');
 
             $image = new Image;
+            $image->name = $filename;
             $image->path = $path;
+            $image->mime_type = $file->getMimeType();
+            $image->file_size = $file->getSize();
+
             $image->save();
 
-            // Trả về id của hình ảnh đã lưu
             return response()->json(['image_id' => $image->id, 'path' => $image->path]);
         }
 

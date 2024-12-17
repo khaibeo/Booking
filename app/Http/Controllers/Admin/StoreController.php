@@ -6,12 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
 use App\Models\Store;
-// use App\Http\Requests\Admin\UpdateStoreRequest;
 use App\Services\StoreService;
-// use App\Services\StoreService;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
@@ -34,7 +31,7 @@ class StoreController extends Controller
     {
         $this->authorize('viewAllStore', Store::class);
 
-        $stores = Store::query()->orderBy('created_at', 'desc')->paginate(10);
+        $stores = $this->storeService->getAllStore();
 
         return view(self::PATH_VIEW.__FUNCTION__, compact('stores'));
     }
@@ -50,7 +47,7 @@ class StoreController extends Controller
     {
         $this->authorize('store', Store::class);
 
-        $this->storeService->createStore($request->except('image'), $request->file('image'));
+        $this->storeService->create($request->validated());
 
         return redirect()->route('admin.stores.index')->with('success', 'Thêm mới thành công');
     }
@@ -59,10 +56,14 @@ class StoreController extends Controller
     {
         $this->authorize('edit', $store);
 
-        $imagePath = $store->image?->path;
-        $imageId = $store->image?->id;
+        $image = [
+            'id' => $store->image?->id,
+            'name' => $store->image?->name,
+            'path' => $store->image?->path,
+            'size' => $store->image?->file_size,
+        ];
 
-        return view(self::PATH_VIEW.__FUNCTION__, compact('store', 'imagePath', 'imageId'));
+        return view(self::PATH_VIEW.__FUNCTION__, compact('store', 'image'));
     }
 
     public function update(UpdateStoreRequest $request, Store $store)

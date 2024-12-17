@@ -11,7 +11,7 @@ class Store extends Model
 
     protected $table = 'stores';
 
-    protected $fillable = ['name', 'code', 'address', 'link_map', 'phone', 'image_id', 'description'];
+    protected $fillable = ['name', 'code', 'address', 'link_map', 'phone', 'description'];
 
     public function users()
     {
@@ -35,6 +35,6 @@ class Store extends Model
 
     public function image()
     {
-        return $this->belongsTo(Image::class);
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

@@ -6,50 +6,34 @@ use App\Models\Image;
 use App\Models\Store;
 use App\Models\StoreSchedule;
 use App\Models\User;
-use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class StoreService
 {
-    use ImageUploadTrait;
-
-    /**
-     * Tạo một cửa hàng mới.
-     */
-    public function createStore(array $data, $file = null)
+    public function getAllStore()
     {
-        if ($file) {
-            // Sử dụng phương thức handleImage từ Trait để xử lý upload ảnh
-            $path = $this->uploadFile($file, 'image_stores');
-
-            $image = Image::create(['path' => $path]);
-
-            $data['image_id'] = $image->id;
-        }
-
-        return Store::query()->create($data);
+        return Store::query()->orderBy('created_at', 'desc')->paginate(10);
     }
 
-    /**
-     * Cập nhật thông tin của một cửa hàng.
-     */
-    public function updateStores(Store $store, array $data, $file = null)
+    public function create(array $data)
     {
-        // Nếu có ảnh mới
-        if ($file) {
-            // Sử dụng phương thức handleImage từ Trait để xử lý upload và xóa ảnh cũ
-            $data['image'] = $this->handleImage($file, $store->image, 'image_stores');
+        $store = Store::query()->create($data);
+
+        if ($data['image_id']) {
+            $image = Image::query()->find($data['image_id']);
+            $image->imageable_type = 'App\Models\Store';
+            $image->imageable_id = $store->id;
+            $image->save();
         }
 
-        // Cập nhật thông tin của cửa hàng
-        $store->update($data);
+        return $store;
     }
 
     public function update($store, array $data)
     {
-        $oldImageId = $store->image_id;
-        $oldImage = $store?->image?->path;
+        $oldImageId = $store->image?->id;
+        $oldImage = $store->image?->path;
 
         if ($data['image_id']) {
             if ($oldImageId && $data['image_id'] == $oldImageId) {
@@ -57,51 +41,32 @@ class StoreService
             } else {
                 if ($oldImage && Storage::disk('public')->exists($oldImage)) {
                     Storage::disk('public')->delete($oldImage);
+                    $store->image()->delete();
                 }
 
-                $data['image_id'] = $data['image_id'];
-            }
-        } else {
-            if ($oldImage && Storage::disk('public')->exists($oldImage)) {
-                Storage::disk('public')->delete($oldImage);
+                $image = Image::query()->find($data['image_id']);
+                $image->imageable_type = 'App\Models\Store';
+                $image->imageable_id = $store->id;
+                $image->save();
+
+                unset($data['image_id']);
             }
         }
 
         return $store->update($data);
     }
 
-    public function loadIdStore($id = '')
-    {
-        return Store::query()->find($id);
-    }
-
-    public function updateStore($params, $id)
-    {
-        $store = Store::query()->find($id);
-        if (! $store) {
-            return ['error' => 'Store not found'];
-        }
-        $store->update($params);
-
-        return $store;
-    }
-
-    /**
-     * Xóa một cửa hàng khỏi hệ thống.
-     */
     public function deleteStore(Store $store)
     {
-        // Xóa ảnh khi xóa cửa hàng
-        $imagePath = $store->image;
-        if (Storage::exists($imagePath)) {
-            Storage::delete($imagePath);
+        $imagePath = $store->image?->path;
+        if (Storage::disk('public')->exists($imagePath)) {
+            Storage::disk('public')->delete($imagePath);
         }
 
-        // Xóa cửa hàng
+        $store->image()->delete();
         $store->delete();
     }
 
-    // Lấy nhân viên theo cửa hàng
     public function getStoreStaff(Request $request, $store)
     {
         $query = User::query()
@@ -111,7 +76,7 @@ class StoreService
 
         // Lọc theo tên
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%'.$request->input('name').'%');
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
         // Phân trang

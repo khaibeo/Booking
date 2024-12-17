@@ -29,7 +29,7 @@ class UpdateStoreRequest extends FormRequest
             'link_map' => 'required|url',
             'phone' => 'required|string|min:8|unique:stores,phone,'.$store->id,
             'code' => 'required|unique:stores,code,'.$store->id,
-            'image_id' => 'nullable',
+            'image_id' => 'required',
             'description' => 'required|string',
         ];
     }
@@ -48,7 +48,7 @@ class UpdateStoreRequest extends FormRequest
             'phone.min' => 'Số điện thoại phải có ít nhất 8 ký tự.',
             'phone.unique' => 'Số điện thoại đã tồn tại.',
             'code.unique' => 'Mã đã tồn tại.',
-            'image.image' => 'File tải lên phải là một hình ảnh.',
+            'image_id.required' => 'Hãy chọn một hình ảnh.',
             'description.required' => 'Mô tả không được bỏ trống.',
         ];
     }

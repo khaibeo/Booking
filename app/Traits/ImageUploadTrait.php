@@ -22,7 +22,7 @@ trait ImageUploadTrait
             'name' => $fileName,
             'path' => $path,
             'mime_type' => $file->getMimeType(),
-            'size' => $file->getSize(),
+            'file_size' => $file->getSize(),
         ];
     }
 

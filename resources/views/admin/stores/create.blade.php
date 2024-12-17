@@ -91,7 +91,7 @@
                                 <label class="form-label" for="image">Ảnh đại diện</label>
                                 <div id="my-dropzone" class="dropzone"></div>
                                 <input type="hidden" name="image_id" id="uploadedImage" value="">
-                                @error('image')
+                                @error('image_id')
                                     <div class="text-danger mt-2" id="image-error">{{ $message }}</div>
                                 @enderror
                             </div>
