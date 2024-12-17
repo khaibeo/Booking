@@ -7,7 +7,6 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -32,11 +31,12 @@ class ProfileController extends Controller
         $data = $request->validated();
 
         try {
-           $this->userService->updateUser($user, $data);
+            $this->userService->updateUser($user, $data);
 
             return back()->with('success', 'Cập nhật thành công');
         } catch (\Throwable $th) {
             dd($th->getMessage());
+
             return back()->with('error', 'Đã có lỗi xảy ra');
         }
     }
@@ -48,7 +48,7 @@ class ProfileController extends Controller
         try {
             $check = $this->userService->checkPassword($user, $data['old_password']);
 
-            if (!$check) {
+            if (! $check) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Dữ liệu không hợp lệ!',

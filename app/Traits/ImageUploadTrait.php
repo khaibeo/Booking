@@ -14,7 +14,7 @@ trait ImageUploadTrait
      */
     public function uploadFile(UploadedFile $file, string $directory = 'images')
     {
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        $fileName = time().'_'.$file->getClientOriginalName();
 
         $path = $file->storeAs($directory, $fileName, 'public');
 

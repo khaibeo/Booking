@@ -22,7 +22,7 @@ class HomeController extends Controller
     {
         $storeId = Auth()->user()->store_id;
 
-        $store = $this->storeService->loadIdStore($storeId);
+        $store = $this->storeService->getStoreById($storeId);
 
         // Tính tổng số lượng booking
         $bookingCount = $this->invoiceService->getBookingCount($storeId);

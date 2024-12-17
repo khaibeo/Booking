@@ -9,7 +9,6 @@ class StoreSchedule extends Model
 {
     use HasFactory;
 
-    // public $timestamps = false;
     protected $fillable = ['store_id', 'date', 'opening_time', 'closing_time'];
 
     public function store()

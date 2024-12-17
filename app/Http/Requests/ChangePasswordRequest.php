@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ChangePasswordRequest extends FormRequest
@@ -11,6 +11,7 @@ class ChangePasswordRequest extends FormRequest
     public function authorize(): bool
     {
         $user = $this->route('user');
+
         return $user && $user->id === auth()->id();
     }
 

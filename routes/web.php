@@ -24,8 +24,8 @@ use App\Http\Controllers\Staff\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
-})->middleware('guest');
+    return redirect()->route('choose-store');
+});
 
 Route::prefix('login')->middleware('guest')->group(function () {
     Route::view('/', 'auth.login')->name('login');
@@ -49,10 +49,6 @@ Route::prefix('admin')
     ->as('admin.')
     ->middleware(['auth'])
     ->group(function () {
-        // Dashboard
-        // Route::get('/', function () {
-        //     return view('dashboard');
-        // })->name('dashboard');
         Route::match(['get', 'post'], '/', [AdminHomeController::class, 'index'])->name('dashboard');
 
         Route::middleware('checkRoleAdmin')->group(function () {
@@ -73,7 +69,7 @@ Route::prefix('admin')
                 Route::put('/change-password/{user}', [ProfileController::class, 'changePassword'])->name('change-password');
             });
 
-            // SERVICES_Categories
+            // SERVICES Categories
             Route::resource('service-category', ServiceCategoryController::class);
 
             // SERVICES

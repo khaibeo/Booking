@@ -47,7 +47,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $stores = Store::all();
-        
+
         $image = [
             'id' => $user->image?->id,
             'name' => $user->image?->name,

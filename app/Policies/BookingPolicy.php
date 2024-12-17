@@ -4,17 +4,16 @@ namespace App\Policies;
 
 use App\Models\Booking;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BookingPolicy
 {
     public function show(User $user, Booking $booking)
     {
-        if($user->role == 'admin'){
+        if ($user->role == 'admin') {
             return true;
         }
 
-        if($user->role == 'staff'){
+        if ($user->role == 'staff') {
             return $user->id == $booking->user_id;
         }
 
@@ -23,7 +22,7 @@ class BookingPolicy
 
     public function update(User $user, Booking $booking)
     {
-        if($user->role == 'admin'){
+        if ($user->role == 'admin') {
             return true;
         }
 
@@ -32,7 +31,7 @@ class BookingPolicy
 
     public function delete(User $user, Booking $booking)
     {
-        if($user->role == 'admin'){
+        if ($user->role == 'admin') {
             return true;
         }
 

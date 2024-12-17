@@ -18,7 +18,7 @@ class BookingService
         }
 
         if (! empty($filters['customer_name'])) {
-            $query->where('name', 'like', '%' . $filters['customer_name'] . '%');
+            $query->where('name', 'like', '%'.$filters['customer_name'].'%');
         }
 
         if (! empty($filters['store_id'])) {
@@ -37,7 +37,7 @@ class BookingService
         $query = Booking::query()->where('store_id', $store);
 
         if (! empty($filters['customer_name'])) {
-            $query->where('name', 'like', '%' . $filters['customer_name'] . '%');
+            $query->where('name', 'like', '%'.$filters['customer_name'].'%');
         }
 
         if (! empty($filters['status'])) {

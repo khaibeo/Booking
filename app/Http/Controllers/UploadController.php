@@ -11,7 +11,7 @@ class UploadController extends Controller
     {
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = time().'_'.$file->getClientOriginalName();
 
             $path = $file->storeAs('images', $filename, 'public');
 

@@ -26,6 +26,7 @@ class ServiceCategoryController extends Controller
     public function create()
     {
         $this->authorize('create', ServiceCategory::class);
+
         return view('admin.serviceCategory.create');
     }
 

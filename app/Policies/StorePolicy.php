@@ -24,8 +24,7 @@ class StorePolicy
 
     public function edit(User $user, Store $store)
     {
-        if($this->isAdmin($user))
-        {
+        if ($this->isAdmin($user)) {
             return true;
         }
 
@@ -34,8 +33,7 @@ class StorePolicy
 
     public function update(User $user, Store $store): bool
     {
-        if($this->isAdmin($user))
-        {
+        if ($this->isAdmin($user)) {
             return true;
         }
 

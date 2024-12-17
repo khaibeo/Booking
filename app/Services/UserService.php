@@ -16,7 +16,7 @@ class UserService
         $imageId = $data['image_id'];
         unset($data['image_id']);
 
-        if (!isset($data['store_id'])) {
+        if (! isset($data['store_id'])) {
             $data['store_id'] = auth()->user()->store_id;
         }
 
@@ -65,7 +65,7 @@ class UserService
 
         // Lọc theo tên
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+            $query->where('name', 'like', '%'.$request->input('name').'%');
         }
 
         // Lọc theo vai trò

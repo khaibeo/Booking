@@ -3,13 +3,12 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
     public function view(User $user, User $model): bool
     {
-        if($user->role == 'admin'){
+        if ($user->role == 'admin') {
             return true;
         }
 
@@ -23,7 +22,7 @@ class UserPolicy
 
     public function update(User $user, User $model): bool
     {
-        if($user->role == 'admin'){
+        if ($user->role == 'admin') {
             return true;
         }
 
@@ -32,7 +31,7 @@ class UserPolicy
 
     public function delete(User $user, User $model): bool
     {
-        if($user->role == 'admin'){
+        if ($user->role == 'admin') {
             return true;
         }
 

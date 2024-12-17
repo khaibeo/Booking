@@ -15,6 +15,6 @@ class Image extends Model
         'url',
         'alt',
         'mime_type',
-        'file_size'
+        'file_size',
     ];
 }

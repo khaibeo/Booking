@@ -16,6 +16,11 @@ class StoreService
         return Store::query()->orderBy('created_at', 'desc')->paginate(10);
     }
 
+    public function getStoreById($id)
+    {
+        return Store::query()->find($id);
+    }
+
     public function create(array $data)
     {
         $store = Store::query()->create($data);
@@ -76,7 +81,7 @@ class StoreService
 
         // Lọc theo tên
         if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
+            $query->where('name', 'like', '%'.$request->input('name').'%');
         }
 
         // Phân trang

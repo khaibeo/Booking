@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class CheckRoleAdmin
 {
@@ -20,7 +20,7 @@ class CheckRoleAdmin
             return redirect()->route('login');
         }
 
-        if(!in_array(Auth::user()->role,['manager','admin'])){
+        if (! in_array(Auth::user()->role, ['manager', 'admin'])) {
             abort(403);
         }
 
