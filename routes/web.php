@@ -136,10 +136,12 @@ Route::prefix('cashier')
         });
     });
 
-Route::get('/booking', [ClientHomeController::class, 'index'])->name('choose-store');
-Route::get('/booking/detail-store/{store}', [ClientStoreController::class, 'show'])->name('detail-store');
-Route::get('/booking/booking-detail/{store}', [ClientBookingController::class, 'index'])->name('booking-detail');
-Route::get('/booking/{booking}/success', [ClientBookingController::class, 'success'])->name('booking-success');
+Route::prefix('booking')->group(function () {
+    Route::get('/', [ClientHomeController::class, 'index'])->name('choose-store');
+    Route::get('/detail-store/{store}', [ClientStoreController::class, 'show'])->name('detail-store');
+    Route::get('/booking-detail/{store}', [ClientBookingController::class, 'index'])->name('booking-detail');
+    Route::get('/{booking}/success', [ClientBookingController::class, 'success'])->name('booking-success');
+});
 
 Route::prefix('v1')->group(function () {
     // Services
